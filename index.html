@@ -63,6 +63,8 @@
   .hero p.lead{max-width:560px;margin:22px auto 0;color:var(--muted);font-size:17px;line-height:1.6}
   .hero-ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
   .btn{display:inline-block;padding:15px 30px;border-radius:100px;font-weight:600;font-size:15px;text-decoration:none;letter-spacing:.01em}
+  button.btn{border:none;cursor:pointer;font-family:'Jost',sans-serif;-webkit-appearance:none;appearance:none}
+  button.ind-link{background:transparent;cursor:pointer;font-family:'Jost',sans-serif;-webkit-appearance:none;appearance:none;border:1px solid rgba(0,212,255,.4)}
   .btn-grad{background:var(--grad);color:#fff}
   .btn-ghost{border:1px solid var(--line);color:var(--text)}
   .hero-note{margin-top:16px;color:var(--muted);font-size:12.5px}
@@ -189,6 +191,25 @@
     .stack{transform:scale(.85)}
     .price-card{padding:34px 22px}
   }
+  /* ---------- MODAL DE COMPRA ---------- */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.abierto{display:flex}
+  .modal-box{width:100%;max-width:380px;background:var(--ink2);border:1px solid var(--line);border-radius:18px;padding:30px 26px;position:relative}
+  .modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+  .modal-box .eyebrow{display:block}
+  .modal-box h3{font-size:20px;color:#fff;margin-top:8px}
+  .modal-precio{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;margin:6px 0 16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .modal-box p.desc{color:var(--muted);font-size:13px;line-height:1.5}
+  .modal-box label{display:block;font-size:12px;color:var(--muted);margin:16px 0 5px}
+  .modal-box input{width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:var(--ink3);color:#fff;font-size:14px;box-sizing:border-box;font-family:'Jost',sans-serif}
+  .modal-box input:focus{outline:1px solid var(--cyan)}
+  .modal-error{color:#ff5c8a;font-size:12.5px;margin-top:10px;display:none}
+  .modal-error.visible{display:block}
+  .modal-fallback{font-size:12px;color:var(--muted);margin-top:14px;text-align:center;display:none}
+  .modal-fallback.visible{display:block}
+  .modal-fallback a{color:var(--cyan)}
+  .modal-box .btn{width:100%;margin-top:20px;border:none;cursor:pointer;font-family:'Jost',sans-serif}
+  .modal-box .btn:disabled{opacity:.6;cursor:default}
 </style>
 </head>
 <body>
@@ -323,9 +344,7 @@
       </div>
       <div class="price-save">Ahorrás $14.998 frente a comprarlos por separado</div>
 
-      <a class="btn btn-grad" href="https://script.google.com/macros/s/AKfycbyyKMoPj3tIvQgJbuaLvUFBBRX27qcF1DVYlkeS8ZpQvTubuB-tqrdQCisMkSWr-GE/exec?producto=combo" target="_blank" rel="noopener">
-        Comprar el combo ahora
-      </a>
+      <button class="btn btn-grad" type="button" onclick="abrirModal('combo', 'Combo RV Completo', 34999, 'https://mpago.la/1nKZqk4')">Comprar el combo ahora</button>
 
       <ul class="price-list">
         <li>Los 3 ebooks completos en PDF</li>
@@ -353,7 +372,7 @@
         <span class="ind-wa">+ acceso a la comunidad de WhatsApp</span>
         <div class="ind-foot">
           <span class="ind-price">$19.999</span>
-          <a class="ind-link" href="https://script.google.com/macros/s/AKfycbyyKMoPj3tIvQgJbuaLvUFBBRX27qcF1DVYlkeS8ZpQvTubuB-tqrdQCisMkSWr-GE/exec?producto=videos" target="_blank" rel="noopener">Comprar</a>
+          <button class="ind-link" type="button" onclick="abrirModal('videos', 'Vende con Videos', 19999, 'https://mpago.la/1nW4su2')">Comprar</button>
         </div>
       </div>
       <div class="ind-card">
@@ -362,7 +381,7 @@
         <span class="ind-wa">+ acceso a la comunidad de WhatsApp</span>
         <div class="ind-foot">
           <span class="ind-price">$14.999</span>
-          <a class="ind-link" href="https://script.google.com/macros/s/AKfycbyyKMoPj3tIvQgJbuaLvUFBBRX27qcF1DVYlkeS8ZpQvTubuB-tqrdQCisMkSWr-GE/exec?producto=escala" target="_blank" rel="noopener">Comprar</a>
+          <button class="ind-link" type="button" onclick="abrirModal('escala', 'Crea, Vende y Escala Tu Ebook', 14999, 'https://mpago.la/2qdFYM6')">Comprar</button>
         </div>
       </div>
       <div class="ind-card">
@@ -371,7 +390,7 @@
         <span class="ind-wa">+ acceso a la comunidad de WhatsApp</span>
         <div class="ind-foot">
           <span class="ind-price">$14.999</span>
-          <a class="ind-link" href="https://script.google.com/macros/s/AKfycbyyKMoPj3tIvQgJbuaLvUFBBRX27qcF1DVYlkeS8ZpQvTubuB-tqrdQCisMkSWr-GE/exec?producto=automatico" target="_blank" rel="noopener">Comprar</a>
+          <button class="ind-link" type="button" onclick="abrirModal('automatico', 'Tu Negocio en Modo Automático', 14999, 'https://mpago.la/176pTot')">Comprar</button>
         </div>
       </div>
     </div>
@@ -415,6 +434,86 @@
     <p>© 2026 RV| Servicios Digitales. Todos los derechos reservados.</p>
   </div>
 </footer>
+
+<div class="modal-overlay" id="modalCompra">
+  <div class="modal-box">
+    <button class="modal-close" type="button" onclick="cerrarModal()" aria-label="Cerrar">✕</button>
+    <span class="eyebrow">RV| Servicios Digitales</span>
+    <h3 id="modalTitulo">Producto</h3>
+    <div class="modal-precio" id="modalPrecio">$0</div>
+    <p class="desc">Completá tus datos para continuar al pago. Ahí mismo te llega tu material apenas se acredita.</p>
+
+    <form id="formCompra" onsubmit="return enviarCompra(event)">
+      <label>Nombre<input type="text" id="modalNombre" required></label>
+      <label>Email<input type="email" id="modalEmail" required placeholder="tu@email.com"></label>
+      <button class="btn btn-grad" type="submit" id="modalSubmit">Continuar al pago</button>
+    </form>
+
+    <p class="modal-error" id="modalError"></p>
+    <p class="modal-fallback" id="modalFallback">¿No te lleva al pago? <a id="modalFallbackLink" href="#" target="_blank" rel="noopener">Tocá acá para pagar directo</a></p>
+  </div>
+</div>
+
+<script>
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyKMoPj3tIvQgJbuaLvUFBBRX27qcF1DVYlkeS8ZpQvTubuB-tqrdQCisMkSWr-GE/exec';
+  var productoActual = null;
+
+  function abrirModal(clave, nombre, precio, linkDirecto) {
+    productoActual = { clave: clave, nombre: nombre, precio: precio, linkDirecto: linkDirecto };
+    document.getElementById('modalTitulo').textContent = nombre;
+    document.getElementById('modalPrecio').textContent = '$' + precio.toLocaleString('es-AR');
+    document.getElementById('modalError').classList.remove('visible');
+    document.getElementById('modalFallback').classList.remove('visible');
+    document.getElementById('modalFallbackLink').href = linkDirecto;
+    document.getElementById('formCompra').reset();
+    document.getElementById('modalCompra').classList.add('abierto');
+  }
+
+  function cerrarModal() {
+    document.getElementById('modalCompra').classList.remove('abierto');
+  }
+
+  function mostrarError(msg, conFallback) {
+    var err = document.getElementById('modalError');
+    err.textContent = msg;
+    err.classList.add('visible');
+    if (conFallback) document.getElementById('modalFallback').classList.add('visible');
+  }
+
+  function enviarCompra(ev) {
+    ev.preventDefault();
+    var nombre = document.getElementById('modalNombre').value.trim();
+    var email = document.getElementById('modalEmail').value.trim();
+    var boton = document.getElementById('modalSubmit');
+
+    document.getElementById('modalError').classList.remove('visible');
+    document.getElementById('modalFallback').classList.remove('visible');
+    boton.disabled = true;
+    boton.textContent = 'Un momento…';
+
+    var url = APPS_SCRIPT_URL + '?producto=' + encodeURIComponent(productoActual.clave) +
+      '&email=' + encodeURIComponent(email) + '&nombre=' + encodeURIComponent(nombre);
+
+    fetch(url)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.ok && data.init_point) {
+          window.location.href = data.init_point;
+        } else {
+          boton.disabled = false;
+          boton.textContent = 'Continuar al pago';
+          mostrarError(data.error || 'No pudimos iniciar el pago. Probá de nuevo, o usá el link directo de abajo.', true);
+        }
+      })
+      .catch(function () {
+        boton.disabled = false;
+        boton.textContent = 'Continuar al pago';
+        mostrarError('No pudimos conectar. Probá de nuevo, o usá el link directo de abajo.', true);
+      });
+
+    return false;
+  }
+</script>
 
 </body>
 </html>
