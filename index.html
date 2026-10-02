@@ -19,26 +19,32 @@ src="https://www.facebook.com/tr?id=1119591757683266&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
-<!-- RV: evento al tocar comprar / continuar al pago -->
+<!-- RV: eventos de compra -->
 <script>
-document.addEventListener('click', function (e) {
-  var el = e.target.closest('a, button');
-  if (!el || typeof fbq !== 'function') return;
-  var href = el.getAttribute('href') || '';
-  var texto = (el.textContent || '').toLowerCase();
-  var esPago = href.indexOf('script.google.com') !== -1 ||
-               href.indexOf('mercadopago') !== -1 ||
-               texto.indexOf('continuar al pago') !== -1;
-  if (!esPago) return;
-  var precios = { combo: 29999, videos: 14999, escala: 12999, automatico: 12999 };
-  var m = href.match(/producto=([a-z_-]+)/);
-  var producto = m ? m[1] : 'combo';
-  fbq('track', 'InitiateCheckout', {
-    content_name: producto,
-    value: precios[producto] || 29999,
-    currency: 'ARS'
-  });
-}, true);
+window.addEventListener('DOMContentLoaded', function () {
+  var original = window.abrirModal;
+  if (typeof original === 'function') {
+    window.abrirModal = function (clave, nombre, precio) {
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: nombre, content_ids: [clave], value: precio, currency: 'ARS'
+        });
+      }
+      return original.apply(this, arguments);
+    };
+  }
+  var form = document.getElementById('formCompra');
+  if (form) {
+    form.addEventListener('submit', function () {
+      if (typeof fbq === 'function' && typeof productoActual !== 'undefined' && productoActual) {
+        fbq('track', 'AddPaymentInfo', {
+          content_name: productoActual.nombre, content_ids: [productoActual.clave],
+          value: productoActual.precio, currency: 'ARS'
+        });
+      }
+    });
+  }
+});
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
