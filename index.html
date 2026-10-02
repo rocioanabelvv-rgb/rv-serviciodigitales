@@ -1,6 +1,44 @@
 <!doctype html>
 <html lang="es">
-<head>
+<<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1119591757683266');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1119591757683266&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- RV: evento al tocar comprar / continuar al pago -->
+<script>
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('a, button');
+  if (!el || typeof fbq !== 'function') return;
+  var href = el.getAttribute('href') || '';
+  var texto = (el.textContent || '').toLowerCase();
+  var esPago = href.indexOf('script.google.com') !== -1 ||
+               href.indexOf('mercadopago') !== -1 ||
+               texto.indexOf('continuar al pago') !== -1;
+  if (!esPago) return;
+  var precios = { combo: 29999, videos: 14999, escala: 12999, automatico: 12999 };
+  var m = href.match(/producto=([a-z_-]+)/);
+  var producto = m ? m[1] : 'combo';
+  fbq('track', 'InitiateCheckout', {
+    content_name: producto,
+    value: precios[producto] || 29999,
+    currency: 'ARS'
+  });
+}, true);
+</script>>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>RV| Servicios Digitales — Combo de ebooks</title>
