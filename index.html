@@ -241,8 +241,52 @@
   .modal-fallback a{color:var(--cyan)}
   .modal-box .btn{width:100%;margin-top:20px;border:none;cursor:pointer;font-family:'Jost',sans-serif}
   .modal-box .btn:disabled{opacity:.6;cursor:default}
-</style>
-</head>
+</style> 
+ <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1119591757683266');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1119591757683266&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- RV: eventos de compra -->
+<script>
+window.addEventListener('DOMContentLoaded', function () {
+  var original = window.abrirModal;
+  if (typeof original === 'function') {
+    window.abrirModal = function (clave, nombre, precio) {
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: nombre, content_ids: [clave], value: precio, currency: 'ARS'
+        });
+      }
+      return original.apply(this, arguments);
+    };
+  }
+  var form = document.getElementById('formCompra');
+  if (form) {
+    form.addEventListener('submit', function () {
+      if (typeof fbq === 'function' && typeof productoActual !== 'undefined' && productoActual) {
+        fbq('track', 'AddPaymentInfo', {
+          content_name: productoActual.nombre, content_ids: [productoActual.clave],
+          value: productoActual.precio, currency: 'ARS'
+        });
+      }
+    });
+  }
+});
+</script> </head>
 <body>
 
 <div class="topbar" id="topbar"><span class="dot"></span><span id="topbarTexto"></span></div>
